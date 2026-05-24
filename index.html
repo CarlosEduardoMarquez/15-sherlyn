@@ -7,523 +7,103 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&family=Great+Vibes&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --lila-glow: #bc9cff;
-            --morado-deep: #05020a;
-            --texto-púrpura: #a855f7;
-            --glass-vibe: rgba(255, 255, 255, 0.04);
-        }
-
-        body, html {
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--morado-deep);
-            color: white;
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* --- BOTÓN MÚSICA --- */
-        #mute-btn {
-            position: fixed; top: 20px; right: 20px; z-index: 10000;
-            background: rgba(255, 255, 255, 0.1); border: 1px solid var(--lila-glow);
-            color: white; width: 45px; height: 45px; border-radius: 50%;
-            display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(10px); cursor: pointer;
-        }
-
-        /* --- CANVAS CAPA MAESTRA (PÉTALOS) --- */
-        #masterCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 4500;
-        }
-
-        /* --- ACTO 1: EL DESPERTAR --- */
-        #screen-intro {
-            position: fixed; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 5000; transition: transform 2s cubic-bezier(0.7, 0, 0.3, 1), opacity 2s;
-        }
-
-        .flower-hero {
-            width: 200px; height: 200px; cursor: pointer;
-            position: relative;
-            animation: cosmicBreathe 6s infinite ease-in-out;
-            z-index: 5001;
-        }
-
-        @keyframes cosmicBreathe {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--lila-glow)) contrast(1); }
-            50% { transform: scale(1.15); filter: drop-shadow(0 0 50px var(--lila-glow)) contrast(1.2) brightness(1.2); }
-        }
-
-        /* --- ACTO 2: NARRATIVA CINEMÁTICA --- */
-        #screen-story {
-            position: fixed; width: 100%; height: 100%; background: #000;
-            display: none; justify-content: center; align-items: center;
-            z-index: 5500; padding: 40px; box-sizing: border-box; text-align: center;
-        }
-
-        #cinematic-flash {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; opacity: 0; z-index: 6000; pointer-events: none;
-        }
-
-        .story-chapter {
-            font-family: 'Cinzel', serif; font-size: clamp(1.1rem, 5vw, 1.5rem);
-            line-height: 2.5; color: #f0edff; position: absolute;
-            opacity: 0; width: 85%; transform: scale(0.8) translateZ(-100px);
-            transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1);
-            text-shadow: 0 0 30px rgba(188, 156, 255, 0.5);
-        }
-
+        :root { --lila-glow: #bc9cff; --morado-deep: #05020a; --texto-púrpura: #a855f7; --glass-vibe: rgba(255, 255, 255, 0.04); }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Montserrat', sans-serif; background-color: var(--morado-deep); color: white; overflow: hidden; -webkit-font-smoothing: antialiased; }
+        #mute-btn { position: fixed; top: 20px; right: 20px; z-index: 10000; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--lila-glow); color: white; width: 45px; height: 45px; border-radius: 50%; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); cursor: pointer; }
+        #masterCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4500; }
+        #screen-intro { position: fixed; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 5000; transition: transform 2s cubic-bezier(0.7, 0, 0.3, 1), opacity 2s; }
+        .flower-hero { width: 200px; height: 200px; cursor: pointer; position: relative; animation: cosmicBreathe 6s infinite ease-in-out; z-index: 5001; }
+        @keyframes cosmicBreathe { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--lila-glow)) contrast(1); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 50px var(--lila-glow)) contrast(1.2) brightness(1.2); } }
+        #screen-story { position: fixed; width: 100%; height: 100%; background: #000; display: none; justify-content: center; align-items: center; z-index: 5500; padding: 40px; box-sizing: border-box; text-align: center; }
+        #cinematic-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; z-index: 6000; pointer-events: none; }
+        .story-chapter { font-family: 'Cinzel', serif; font-size: clamp(1.1rem, 5vw, 1.5rem); line-height: 2.5; color: #f0edff; position: absolute; opacity: 0; width: 85%; transform: scale(0.8) translateZ(-100px); transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1); text-shadow: 0 0 30px rgba(188, 156, 255, 0.5); }
         .chapter-in { opacity: 1 !important; transform: scale(1) translateZ(0) !important; filter: blur(0); }
         .chapter-out { opacity: 0 !important; transform: scale(1.2) translateZ(100px) !important; filter: blur(15px); }
-
-        /* --- ACTO 3: EL SALÓN DE GALA --- */
-        #main-invitation {
-            width: 100%; height: 100vh; overflow-y: auto; display: none;
-            background: linear-gradient(180deg, #0d0616 0%, #150824 100%);
-            scroll-snap-type: y mandatory;
-        }
-
+        #main-invitation { width: 100%; height: 100vh; overflow-y: auto; display: none; background: linear-gradient(180deg, #0d0616 0%, #150824 100%); scroll-snap-type: y mandatory; }
         #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.5; }
-
-        section.scene {
-            height: 100vh; width: 100%; display: flex; justify-content: center;
-            align-items: center; scroll-snap-align: start; position: relative; z-index: 10;
-        }
-
-        .glass-card {
-            background: var(--glass-vibe); backdrop-filter: blur(30px);
-            border: 1px solid rgba(255,255,255,0.08); border-radius: 40px;
-            padding: 40px 30px; width: 85%; max-width: 440px;
-            text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            opacity: 0; transform: translateY(100px) scale(0.8);
-            transition: all 2s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        .scene.active .glass-card {
-            opacity: 1; transform: translateY(0) scale(1);
-            border: 1px solid rgba(188, 156, 255, 0.25);
-        }
-
+        section.scene { height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center; scroll-snap-align: start; position: relative; z-index: 10; }
+        .glass-card { background: var(--glass-vibe); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.08); border-radius: 40px; padding: 40px 30px; width: 85%; max-width: 440px; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.8); opacity: 0; transform: translateY(100px) scale(0.8); transition: all 2s cubic-bezier(0.19, 1, 0.22, 1); }
+        .scene.active .glass-card { opacity: 1; transform: translateY(0) scale(1); border: 1px solid rgba(188, 156, 255, 0.25); }
         h1 { font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 14vw, 6rem); color: var(--texto-púrpura); margin: 10px 0; }
-        
         .countdown { display: flex; justify-content: center; gap: 10px; margin: 40px 0; }
         .count-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 20px; min-width: 65px; border: 1px solid rgba(255,255,255,0.05); }
         .count-box span { display: block; font-size: 1.6rem; font-weight: bold; color: var(--texto-púrpura); }
-
-        .btn-action {
-            display: inline-block; padding: 18px 45px; background: linear-gradient(135deg, #a855f7, #6b21a8);
-            color: white; border-radius: 50px; text-decoration: none; font-weight: 600;
-            margin-top: 15px; box-shadow: 0 15px 40px rgba(147, 51, 234, 0.4);
-            transition: 0.3s; width: 80%; border: none; cursor: pointer; font-family: 'Montserrat', sans-serif;
-        }
+        .btn-action { display: inline-block; padding: 18px 45px; background: linear-gradient(135deg, #a855f7, #6b21a8); color: white; border-radius: 50px; text-decoration: none; font-weight: 600; margin-top: 15px; box-shadow: 0 15px 40px rgba(147, 51, 234, 0.4); transition: 0.3s; width: 80%; border: none; cursor: pointer; font-family: 'Montserrat', sans-serif; }
         .btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
-
         .btn-calendar { background: transparent; border: 1px solid var(--lila-glow); box-shadow: none; margin-top: 10px; }
-
         .warp-transition { transform: scale(25) rotate(15deg); opacity: 0; filter: blur(60px); }
-
-        /* ESTILOS DEL FORMULARIO DE CONFIRMACIÓN */
-        .guest-input-container {
-            display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 15px;
-        }
-        .guest-input {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--lila-glow); color: white;
-            padding: 12px; width: 70px; text-align: center; border-radius: 12px; font-size: 1.4rem; font-weight: bold;
-        }
+        .guest-input-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 15px; }
+        .guest-input { background: rgba(255,255,255,0.05); border: 1px solid var(--lila-glow); color: white; padding: 12px; width: 70px; text-align: center; border-radius: 12px; font-size: 1.4rem; font-weight: bold; }
     </style>
 </head>
 <body>
-
     <button id="mute-btn" onclick="toggleMusic()"><i id="music-icon" class="fas fa-volume-up"></i></button>
-    <audio id="bg-audio" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="cinematic-flash"></div>
-    <canvas id="masterCanvas"></canvas>
-
-    <section id="screen-intro">
-        <div class="flower-hero" onclick="startMovie()">
-            <svg viewBox="0 0 100 100">
-                <path d="M50 50 Q75 5 95 35 Q100 55 80 75 Q50 95 50 50" fill="#a855f7" opacity="0.8"/>
-                <path d="M50 50 Q25 5 5 35 Q0 55 20 75 Q50 95 50 50" fill="#bc9cff" opacity="0.8"/>
-                <path d="M50 50 Q85 85 65 95 Q45 105 35 85 Q25 65 50 50" fill="#7c3aed" opacity="0.9"/>
-                <circle cx="50" cy="50" r="4" fill="white"/>
-            </svg>
-        </div>
-        <p style="margin-top: 50px; letter-spacing: 8px; font-size: 0.8rem; color: var(--lila-glow); opacity: 0.5;">TOCA PARA REVELAR</p>
-    </section>
-
-    <section id="screen-story">
-        <div class="story-chapter" id="c1">En el firmamento de nuestra vida,<br>hace quince años comenzó a brillar una luz única...</div>
-        <div class="story-chapter" id="c2">Hoy, esa estrella irradia con la fuerza de los sueños<br>y la magia de la juventud.</div>
-        <div class="story-chapter" id="c3">Te invitamos a ser parte del capítulo más brillante<br>en la historia de <b style="color:var(--lila-glow)">Sherlyn Antonia</b>.</div>
-    </section>
-
+    <audio id="bg-audio" loop preload="auto"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
+    <div id="cinematic-flash"></div><canvas id="masterCanvas"></canvas>
+    <section id="screen-intro"><div class="flower-hero" onclick="startMovie()"><svg viewBox="0 0 100 100"><path d="M50 50 Q75 5 95 35 Q100 55 80 75 Q50 95 50 50" fill="#a855f7" opacity="0.8"/><path d="M50 50 Q25 5 5 35 Q0 55 20 75 Q50 95 50 50" fill="#bc9cff" opacity="0.8"/><path d="M50 50 Q85 85 65 95 Q45 105 35 85 Q25 65 50 50" fill="#7c3aed" opacity="0.9"/><circle cx="50" cy="50" r="4" fill="white"/></svg></div><p style="margin-top: 50px; letter-spacing: 8px; font-size: 0.8rem; color: var(--lila-glow); opacity: 0.5;">TOCA PARA REVELAR</p></section>
+    <section id="screen-story"><div class="story-chapter" id="c1">En el firmamento de nuestra vida,<br>hace quince años comenzó a brillar una luz única...</div><div class="story-chapter" id="c2">Hoy, esa estrella irradia con la fuerza de los sueños<br>y la magia de la juventud.</div><div class="story-chapter" id="c3">Te invitamos a ser parte del capítulo más brillante<br>en la historia de <b style="color:var(--lila-glow)">Sherlyn Antonia</b>.</div></section>
     <main id="main-invitation">
         <canvas id="starfield"></canvas>
-        <section class="scene">
-            <div class="glass-card">
-                <p style="letter-spacing: 6px; font-size: 0.8rem; color: #999;">GALA DE QUINCE AÑOS</p>
-                <h1>Sherlyn Antonia</h1>
-                <p style="font-size: 1.1rem; color: #777; letter-spacing: 3px; font-weight: 200;">Alvarez Marquez</p>
-                <div style="margin-top: 70px; opacity: 0.2;"><i class="fas fa-chevron-down fa-bounce"></i></div>
-            </div>
-        </section>
-
-        <section class="scene">
-            <div class="glass-card">
-                <h2 style="font-weight: 200; letter-spacing: 6px; color: var(--lila-glow); margin-bottom: 30px;">22 • AGOSTO • 2026</h2>
-                <div class="countdown">
-                    <div class="count-box"><span id="days">00</span><label>DÍAS</label></div>
-                    <div class="count-box"><span id="hrs">00</span><label>HRS</label></div>
-                    <div class="count-box"><span id="min">00</span><label>MIN</label></div>
-                    <div class="count-box"><span id="seg">00</span><label>SEG</label></div>
-                </div>
-                <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=XV+Sherlyn+Antonia&details=Celebración+de+los+XV+años+de+Sherlyn+Antonia.+¡Te+esperamos!&dates=20260822T170000/20260823T020000" target="_blank" class="btn-action btn-calendar">
-                    <i class="far fa-calendar-plus"></i> AGENDAR FECHA
-                </a>
-            </div>
-        </section>
-
-        <section class="scene">
-            <div class="glass-card" style="padding-top: 30px; padding-bottom: 30px;">
-                <h3 style="color:var(--texto-púrpura); font-weight: 400; letter-spacing: 5px; font-size: 1.2rem;">RECEPCIÓN</h3>
-                
-                <div style="text-align: left; margin: 20px 0; font-size: 0.9rem; line-height: 2.2; border-left: 2px solid var(--texto-púrpura); padding-left: 15px;">
-                    <p style="margin: 5px 0;"><i class="fas fa-church" style="color: var(--lila-glow);"></i> <b>CEREMONIA:</b> 17:00 HRS</p>
-                    <p style="margin: 5px 0;"><i class="fas fa-glass-cheers" style="color: var(--lila-glow);"></i> <b>BANQUETE:</b> 19:30 HRS</p>
-                    <p style="margin: 5px 0;"><i class="fas fa-envelope-open-text" style="color: var(--lila-glow);"></i> Lluvia de Sobres</p>
-                </div>
-
-                <hr style="border: 0; border-top: 1px solid rgba(188, 156, 255, 0.2); margin: 25px 0;">
-
-                <div id="loading-msg" style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px;"><i class="fas fa-spinner fa-spin"></i> Preparando tu recepción...</div>
-                
-                <div id="guest-details" style="display: none;">
-                    <p style="font-size: 0.7rem; letter-spacing: 3px; color: #999; margin-bottom: 0;">INVITACIÓN ESPECIAL PARA</p>
-                    <h2 id="guest-name" style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: white; margin: 5px 0; font-weight: normal; text-shadow: 0 0 10px rgba(188, 156, 255, 0.5);">---</h2>
-                    <p style="color: var(--lila-glow); font-size: 0.9rem; margin-top: 0; letter-spacing: 1px;">Cupos reservados: <span id="guest-limit" style="font-weight: bold; font-size: 1.2rem; color: white;">0</span></p>
-                    
-                    <div style="margin-top: 25px;">
-                        <label for="guest-count" style="font-size: 0.85rem; color: #ccc; letter-spacing: 1px;">¿Cuántos nos acompañarán?</label>
-                        <div class="guest-input-container">
-                            <input type="number" id="guest-count" min="0" value="0" class="guest-input" readonly onfocus="this.removeAttribute('readonly');">
-                        </div>
-                    </div>
-                    
-                    <button id="btn-confirm" onclick="confirmarAsistencia()" class="btn-action" style="width: 100%; margin-top: 25px; padding: 15px 0;">
-                        <i class="fas fa-check"></i> CONFIRMAR Y DESCARGAR PASE
-                    </button>
-                </div>
-
-                <div id="success-msg" style="display: none; padding: 20px 0;">
-                    <i class="fas fa-check-circle" style="color: var(--lila-glow); font-size: 3.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--lila-glow));"></i>
-                    <h2 style="font-family: 'Cinzel', serif; color: white; font-size: 1.5rem; margin: 0;">¡Asistencia Confirmada!</h2>
-                    <p style="color: #aaa; font-size: 0.9rem; margin-top: 10px; line-height: 1.6;">Gracias por acompañarnos.<br>Tu pase digital se ha descargado automáticamente.</p>
-                </div>
-
-            </div>
-        </section>
+        <section class="scene"><div class="glass-card"><p style="letter-spacing: 6px; font-size: 0.8rem; color: #999;">GALA DE QUINCE AÑOS</p><h1>Sherlyn Antonia</h1><p style="font-size: 1.1rem; color: #777; letter-spacing: 3px; font-weight: 200;">Alvarez Marquez</p><div style="margin-top: 70px; opacity: 0.2;"><i class="fas fa-chevron-down fa-bounce"></i></div></div></section>
+        <section class="scene"><div class="glass-card"><h2 style="font-weight: 200; letter-spacing: 6px; color: var(--lila-glow); margin-bottom: 30px;">22 • AGOSTO • 2026</h2><div class="countdown"><div class="count-box"><span id="days">00</span><label>DÍAS</label></div><div class="count-box"><span id="hrs">00</span><label>HRS</label></div><div class="count-box"><span id="min">00</span><label>MIN</label></div><div class="count-box"><span id="seg">00</span><label>SEG</label></div></div><a href="https://www.google.com/calendar/render?action=TEMPLATE&text=XV+Sherlyn+Antonia&details=Celebración+de+los+XV+años+de+Sherlyn+Antonia.+¡Te+esperamos!&dates=20260822T170000/20260823T020000" target="_blank" class="btn-action btn-calendar"><i class="far fa-calendar-plus"></i> AGENDAR FECHA</a></div></section>
+        <section class="scene"><div class="glass-card" style="padding-top: 30px; padding-bottom: 30px;"><h3 style="color:var(--texto-púrpura); font-weight: 400; letter-spacing: 5px; font-size: 1.2rem;">RECEPCIÓN</h3><div style="text-align: left; margin: 20px 0; font-size: 0.9rem; line-height: 2.2; border-left: 2px solid var(--texto-púrpura); padding-left: 15px;"><p style="margin: 5px 0;"><i class="fas fa-church" style="color: var(--lila-glow);"></i> <b>CEREMONIA:</b> 17:00 HRS</p><p style="margin: 5px 0;"><i class="fas fa-glass-cheers" style="color: var(--lila-glow);"></i> <b>BANQUETE:</b> 19:30 HRS</p><p style="margin: 5px 0;"><i class="fas fa-envelope-open-text" style="color: var(--lila-glow);"></i> Lluvia de Sobres</p></div><hr style="border: 0; border-top: 1px solid rgba(188, 156, 255, 0.2); margin: 25px 0;"><div id="loading-msg" style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px;"><i class="fas fa-spinner fa-spin"></i> Preparando tu recepción...</div><div id="guest-details" style="display: none;"><p style="font-size: 0.7rem; letter-spacing: 3px; color: #999; margin-bottom: 0;">INVITACIÓN ESPECIAL PARA</p><h2 id="guest-name" style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: white; margin: 5px 0; font-weight: normal; text-shadow: 0 0 10px rgba(188, 156, 255, 0.5);">---</h2><p style="color: var(--lila-glow); font-size: 0.9rem; margin-top: 0; letter-spacing: 1px;">Cupos reservados: <span id="guest-limit" style="font-weight: bold; font-size: 1.2rem; color: white;">0</span></p><div style="margin-top: 25px;"><label for="guest-count" style="font-size: 0.85rem; color: #ccc; letter-spacing: 1px;">¿Cuántos nos acompañarán?</label><div class="guest-input-container"><input type="number" id="guest-count" min="0" value="0" class="guest-input" readonly onfocus="this.removeAttribute('readonly');"></div></div><button id="btn-confirm" onclick="confirmarAsistencia()" class="btn-action" style="width: 100%; margin-top: 25px; padding: 15px 0;"><i class="fas fa-check"></i> CONFIRMAR Y DESCARGAR PASE</button></div><div id="success-msg" style="display: none; padding: 20px 0;"></div></div></section>
     </main>
 
     <script>
-        const audio = document.getElementById('bg-audio');
-        audio.volume = 0.2;
-
-        const masterCanvas = document.getElementById('masterCanvas');
-        const mCtx = masterCanvas.getContext('2d');
-        let petals = [];
-
-        function initMasterCanvas() {
-            masterCanvas.width = window.innerWidth;
-            masterCanvas.height = window.innerHeight;
-            for(let i=0; i<35; i++) {
-                petals.push({
-                    x: Math.random() * masterCanvas.width,
-                    y: Math.random() * masterCanvas.height,
-                    s: Math.random() * 8 + 10,
-                    sp: Math.random() * 1.2 + 0.8,
-                    r: Math.random() * 360,
-                    rs: Math.random() * 2 - 1
-                });
-            }
-        }
-
-        function drawPetals() {
-            mCtx.clearRect(0,0,masterCanvas.width, masterCanvas.height);
-            mCtx.fillStyle = "rgba(188, 156, 255, 0.3)";
-            petals.forEach(p => {
-                p.y += p.sp; p.r += p.rs;
-                if(p.y > masterCanvas.height) p.y = -20;
-                mCtx.save();
-                mCtx.translate(p.x, p.y);
-                mCtx.rotate(p.r * Math.PI / 180);
-                mCtx.beginPath();
-                mCtx.ellipse(0, 0, p.s, p.s/1.8, 0, 0, Math.PI * 2);
-                mCtx.fill();
-                mCtx.restore();
-            });
-            requestAnimationFrame(drawPetals);
-        }
-        initMasterCanvas();
-        drawPetals();
-
+        const audio = document.getElementById('bg-audio'); audio.volume = 0.2;
+        const masterCanvas = document.getElementById('masterCanvas'); const mCtx = masterCanvas.getContext('2d'); let petals = [];
+        function initMasterCanvas() { masterCanvas.width = window.innerWidth; masterCanvas.height = window.innerHeight; for(let i=0; i<35; i++) petals.push({ x: Math.random() * masterCanvas.width, y: Math.random() * masterCanvas.height, s: Math.random() * 8 + 10, sp: Math.random() * 1.2 + 0.8, r: Math.random() * 360, rs: Math.random() * 2 - 1 }); }
+        function drawPetals() { mCtx.clearRect(0,0,masterCanvas.width, masterCanvas.height); mCtx.fillStyle = "rgba(188, 156, 255, 0.3)"; petals.forEach(p => { p.y += p.sp; p.r += p.rs; if(p.y > masterCanvas.height) p.y = -20; mCtx.save(); mCtx.translate(p.x, p.y); mCtx.rotate(p.r * Math.PI / 180); mCtx.beginPath(); mCtx.ellipse(0, 0, p.s, p.s/1.8, 0, 0, Math.PI * 2); mCtx.fill(); mCtx.restore(); }); requestAnimationFrame(drawPetals); }
+        initMasterCanvas(); drawPetals();
         function toggleMusic() { if (audio.paused) audio.play(); else audio.pause(); }
-
-        async function startMovie() {
-            audio.play().catch(()=>{});
-            document.getElementById('mute-btn').style.display = 'flex';
-            document.getElementById('screen-intro').classList.add('warp-transition');
-            
-            setTimeout(async () => {
-                document.getElementById('screen-intro').style.display = 'none';
-                document.getElementById('screen-story').style.display = 'flex';
-                
-                const chapters = [document.getElementById('c1'), document.getElementById('c2'), document.getElementById('c3')];
-                const flash = document.getElementById('cinematic-flash');
-
-                for(let i=0; i < chapters.length; i++) {
-                    chapters[i].classList.add('chapter-in');
-                    await new Promise(r => setTimeout(r, 6500)); 
-                    
-                    flash.style.transition = 'opacity 0.2s'; flash.style.opacity = '0.3';
-                    setTimeout(() => { flash.style.opacity = '0'; }, 200);
-
-                    chapters[i].classList.replace('chapter-in', 'chapter-out');
-                    await new Promise(r => setTimeout(r, 1200));
-                }
-
-                document.getElementById('screen-story').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('screen-story').style.display = 'none';
-                    document.getElementById('main-invitation').style.display = 'block';
-                    document.body.style.overflow = 'auto';
-                    initScrollObserver(); initStarfield();
-                    cargarDatosInvitado();
-                }, 1500);
-            }, 1200);
-        }
-
-        // --- LÓGICA DE PRODUCCIÓN ---
-        // IMPORTANTE: Asegúrate de que esta URL sea la última que generaste en Google Apps Script
-        const API_URL = "https://script.google.com/macros/s/AKfycbzMM2WuqzgSpOX4MUQuhu1PIsGpdckkATnFUHr-3GMPf_jppoxz-_GpitAHr5B0VYR3Lg/exec"; 
-        const urlParams = new URLSearchParams(window.location.search);
-        const guestId = urlParams.get('id');
+        async function startMovie() { audio.play().catch(()=>{}); document.getElementById('mute-btn').style.display = 'flex'; document.getElementById('screen-intro').classList.add('warp-transition'); setTimeout(async () => { document.getElementById('screen-intro').style.display = 'none'; document.getElementById('screen-story').style.display = 'flex'; const chapters = [document.getElementById('c1'), document.getElementById('c2'), document.getElementById('c3')]; const flash = document.getElementById('cinematic-flash'); for(let i=0; i < chapters.length; i++) { chapters[i].classList.add('chapter-in'); await new Promise(r => setTimeout(r, 6500)); flash.style.transition = 'opacity 0.2s'; flash.style.opacity = '0.3'; setTimeout(() => { flash.style.opacity = '0'; }, 200); chapters[i].classList.replace('chapter-in', 'chapter-out'); await new Promise(r => setTimeout(r, 1200)); } document.getElementById('screen-story').style.opacity = '0'; setTimeout(() => { document.getElementById('screen-story').style.display = 'none'; document.getElementById('main-invitation').style.display = 'block'; document.body.style.overflow = 'auto'; initScrollObserver(); initStarfield(); cargarDatosInvitado(); }, 1500); }, 1200); }
+        
+        const API_URL = "PEGA_AQUI_TU_NUEVA_URL_DE_APPS_SCRIPT"; 
+        const urlParams = new URLSearchParams(window.location.search); const guestId = urlParams.get('id');
 
         function cargarDatosInvitado() {
             if(guestId) {
-                // Se agregó "?action=get_guest" para que Google sepa qué buscar
                 fetch(`${API_URL}?action=get_guest&id=${guestId}`)
                 .then(res => res.json())
                 .then(data => {
                     if(data.encontrado) {
-                        mostrarFormulario(data.nombre, data.pases);
-                    } else {
-                        document.getElementById('loading-msg').innerText = "Identificador no encontrado en la lista de invitados.";
-                    }
-                }).catch(e => {
-                    // Si falla la conexión, muestra un mensaje amigable
-                    document.getElementById('loading-msg').innerText = "Error de red. Verifica tu conexión.";
-                });
-            } else {
-                document.getElementById('loading-msg').innerHTML = "Esta es una vista general.<br>Para confirmar, ingresa desde tu enlace personalizado de WhatsApp.";
-            }
+                        if(data.asistencia === "Confirmado") { mostrarPaseYaConfirmado(data.nombre, data.confirmados); } 
+                        else { mostrarFormulario(data.nombre, data.pases); }
+                    } else { document.getElementById('loading-msg').innerText = "Identificador no encontrado."; }
+                }).catch(e => { document.getElementById('loading-msg').innerText = "Error de red."; });
+            } else { document.getElementById('loading-msg').innerHTML = "Esta es una vista general."; }
         }
 
-        function mostrarFormulario(nombre, cupos) {
+        function mostrarFormulario(nombre, cupos) { document.getElementById('loading-msg').style.display = 'none'; document.getElementById('guest-details').style.display = 'block'; document.getElementById('guest-name').innerText = nombre; document.getElementById('guest-limit').innerText = cupos; const input = document.getElementById('guest-count'); input.max = cupos; input.value = cupos; }
+        
+        function mostrarPaseYaConfirmado(nombre, cuposConfirmados) {
             document.getElementById('loading-msg').style.display = 'none';
-            document.getElementById('guest-details').style.display = 'block';
-            
-            document.getElementById('guest-name').innerText = nombre;
-            document.getElementById('guest-limit').innerText = cupos;
-            
-            const input = document.getElementById('guest-count');
-            input.max = cupos;
-            input.value = cupos; 
-            
-            input.addEventListener('input', function() {
-                if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;
-                if(parseInt(this.value) < 0 || this.value === '') this.value = 0;
-            });
+            const successMsg = document.getElementById('success-msg'); successMsg.style.display = 'block';
+            successMsg.innerHTML = `<i class="fas fa-check-circle" style="color: var(--lila-glow); font-size: 3.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--lila-glow));"></i><h2 style="font-family: 'Cinzel', serif; color: white; font-size: 1.5rem; margin: 0;">Asistencia Confirmada</h2><p style="color: #aaa; font-size: 0.9rem; margin-top: 10px;">Ya hemos registrado tu asistencia para <b>${cuposConfirmados} persona(s)</b>.</p><button onclick="generarYDescargarPaseImagen('${nombre}', ${cuposConfirmados})" class="btn-action" style="width: 100%; margin-top: 20px; padding: 15px 0;"><i class="fas fa-download"></i> DESCARGAR PASE VIP</button>`;
         }
 
         function confirmarAsistencia() {
             const nombreInvitado = document.getElementById('guest-name').innerText;
             const cuposConfirmados = document.getElementById('guest-count').value;
-            const btn = document.getElementById('btn-confirm');
-            
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO PASE...';
-            btn.disabled = true;
-
-            // 1. Enviar a Google Sheets indicando action: 'confirm_guest'
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'confirm_guest', id: guestId, confirmados: cuposConfirmados })
-            }).then(() => {
-                // 2. Generar y descargar el Pase Digital automáticamente en formato de Imagen Premium (.png)
-                setTimeout(() => {
-                    generarYDescargarPaseImagen(nombreInvitado, cuposConfirmados);
-                    document.getElementById('guest-details').style.display = 'none';
-                    document.getElementById('success-msg').style.display = 'block';
-                }, 1200);
-            }).catch(e => {
-                // En caso de que el navegador bloquee el fetch inicial, intentamos forzar la descarga de todos modos
-                setTimeout(() => {
-                    generarYDescargarPaseImagen(nombreInvitado, cuposConfirmados);
-                    document.getElementById('guest-details').style.display = 'none';
-                    document.getElementById('success-msg').style.display = 'block';
-                }, 1200);
-            });
+            const btn = document.getElementById('btn-confirm'); btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO...'; btn.disabled = true;
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'confirm_guest', id: guestId, confirmados: cuposConfirmados }) }).then(() => { setTimeout(() => { generarYDescargarPaseImagen(nombreInvitado, cuposConfirmados); document.getElementById('guest-details').style.display = 'none'; document.getElementById('success-msg').style.display = 'block'; document.getElementById('success-msg').innerHTML = `<i class="fas fa-check-circle" style="color: var(--lila-glow); font-size: 3.5rem; margin-bottom: 15px;"></i><h2 style="font-family: 'Cinzel', serif; color: white; font-size: 1.5rem; margin: 0;">¡Asistencia Confirmada!</h2><p style="color: #aaa; font-size: 0.9rem; margin-top: 10px;">Gracias por acompañarnos.<br>Tu pase digital se ha descargado.</p>`; }, 1200); });
         }
 
-        // --- GENERADOR NATIVO DE PASES DIGITALES EN ALTA RESOLUCIÓN ---
         function generarYDescargarPaseImagen(nombre, cupos) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 800;
-            canvas.height = 1200;
-            const ctx = canvas.getContext('2d');
-
-            // Fondo de Gala Cinemático
-            const grad = ctx.createLinearGradient(0, 0, 0, 1200);
-            grad.addColorStop(0, '#0d0616');
-            grad.addColorStop(1, '#150824');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 800, 1200);
-
-            // Marcos y Bordes de Lujo
-            ctx.strokeStyle = '#bc9cff';
-            ctx.lineWidth = 4;
-            ctx.strokeRect(40, 40, 720, 1120);
-            
-            ctx.strokeStyle = 'rgba(188, 156, 255, 0.2)';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(52, 52, 696, 1096);
-
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-
-            // Textos estilizados
-            ctx.fillStyle = '#a855f7';
-            ctx.font = 'bold 15px Montserrat, sans-serif';
-            ctx.fillText('PASE DIGITAL EXCLUSIVO', 400, 130);
-
-            ctx.fillStyle = '#bc9cff';
-            ctx.font = 'italic 58px Georgia, serif';
-            ctx.fillText('Sherlyn Antonia', 400, 240);
-            
-            ctx.fillStyle = '#8b5cf6';
-            ctx.font = 'bold 18px Montserrat, sans-serif';
-            ctx.fillText('ALVAREZ MÁRQUEZ', 400, 305);
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '28px Georgia, serif';
-            ctx.fillText('Mis XV Años', 400, 380);
-
-            // Separador
-            ctx.beginPath(); ctx.moveTo(250, 440); ctx.lineTo(550, 440);
-            ctx.strokeStyle = 'rgba(188, 156, 255, 0.3)'; ctx.stroke();
-
-            // Datos de la Gala
-            ctx.fillStyle = '#a855f7';
-            ctx.font = 'bold 22px Montserrat, sans-serif';
-            ctx.fillText('RECEPCIÓN', 400, 500);
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '20px Montserrat, sans-serif';
-            ctx.fillText('Sábado, 22 de Agosto de 2026 • 17:00 HRS', 400, 560);
-            
-            ctx.fillStyle = '#e5e7eb';
-            ctx.font = 'bold 22px Georgia, serif';
-            ctx.fillText('Salón de Eventos Joely', 400, 620);
-            
-            ctx.fillStyle = '#9ca3af';
-            ctx.font = '15px Montserrat, sans-serif';
-            ctx.fillText('Av. 16 de Septiembre 605, Primero de Mayo, Villahermosa, Tabasco', 400, 665);
-
-            // Contenedor del Cupo Personalizado (Línea de puntos/gala)
-            ctx.fillStyle = 'rgba(188, 156, 255, 0.04)';
-            ctx.fillRect(100, 750, 600, 250);
-            ctx.strokeStyle = '#bc9cff';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([8, 5]);
-            ctx.strokeRect(100, 750, 600, 250);
-            ctx.setLineDash([]); 
-
-            ctx.fillStyle = '#a855f7';
-            ctx.font = 'bold 15px Montserrat, sans-serif';
-            ctx.fillText('ACCESO RESERVADO PARA:', 400, 800);
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 42px Georgia, serif';
-            ctx.fillText(nombre, 400, 865);
-
-            ctx.fillStyle = '#bc9cff';
-            ctx.font = 'bold 24px Montserrat, sans-serif';
-            ctx.fillText('Cupos Confirmados: ' + cupos, 400, 940);
-
-            // Notas Legales / Protocolos
-            ctx.fillStyle = '#7c3aed';
-            ctx.font = 'bold 16px Montserrat, sans-serif';
-            ctx.fillText('DRESS CODE: FORMAL / ETIQUETA', 400, 1060);
-            
-            ctx.fillStyle = '#9ca3af';
-            ctx.font = '15px Montserrat, sans-serif';
-            ctx.fillText('Presenta este pase digital en la recepción del evento • Lluvia de Sobres', 400, 1100);
-
-            // Ejecución del disparador de descarga del navegador (Compatible móvil/escritorio)
-            const link = document.createElement('a');
-            link.download = `Pase_XV_${nombre.replace(/ /g, '_')}_Cupos_${cupos}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
+            const canvas = document.createElement('canvas'); canvas.width = 800; canvas.height = 1200; const ctx = canvas.getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, 1200); grad.addColorStop(0, '#0d0616'); grad.addColorStop(1, '#150824'); ctx.fillStyle = grad; ctx.fillRect(0, 0, 800, 1200);
+            ctx.strokeStyle = '#bc9cff'; ctx.lineWidth = 4; ctx.strokeRect(40, 40, 720, 1120); ctx.strokeStyle = 'rgba(188, 156, 255, 0.2)'; ctx.lineWidth = 1; ctx.strokeRect(52, 52, 696, 1096);
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#a855f7'; ctx.font = 'bold 15px Montserrat, sans-serif'; ctx.fillText('PASE DIGITAL EXCLUSIVO', 400, 130);
+            ctx.fillStyle = '#bc9cff'; ctx.font = 'italic 58px Georgia, serif'; ctx.fillText('Sherlyn Antonia', 400, 240); ctx.fillStyle = '#8b5cf6'; ctx.font = 'bold 18px Montserrat, sans-serif'; ctx.fillText('ALVAREZ MÁRQUEZ', 400, 305); ctx.fillStyle = '#ffffff'; ctx.font = '28px Georgia, serif'; ctx.fillText('Mis XV Años', 400, 380);
+            ctx.beginPath(); ctx.moveTo(250, 440); ctx.lineTo(550, 440); ctx.strokeStyle = 'rgba(188, 156, 255, 0.3)'; ctx.stroke(); ctx.fillStyle = '#a855f7'; ctx.font = 'bold 22px Montserrat, sans-serif'; ctx.fillText('RECEPCIÓN', 400, 500); ctx.fillStyle = '#ffffff'; ctx.font = '20px Montserrat, sans-serif'; ctx.fillText('Sábado, 22 de Agosto de 2026 • 17:00 HRS', 400, 560); ctx.fillStyle = '#e5e7eb'; ctx.font = 'bold 22px Georgia, serif'; ctx.fillText('Salón de Eventos Joely', 400, 620); ctx.fillStyle = '#9ca3af'; ctx.font = '15px Montserrat, sans-serif'; ctx.fillText('Av. 16 de Septiembre 605, Primero de Mayo, Villahermosa, Tabasco', 400, 665);
+            ctx.fillStyle = 'rgba(188, 156, 255, 0.04)'; ctx.fillRect(100, 750, 600, 250); ctx.strokeStyle = '#bc9cff'; ctx.lineWidth = 2; ctx.setLineDash([8, 5]); ctx.strokeRect(100, 750, 600, 250); ctx.setLineDash([]); ctx.fillStyle = '#a855f7'; ctx.font = 'bold 15px Montserrat, sans-serif'; ctx.fillText('ACCESO RESERVADO PARA:', 400, 800); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 42px Georgia, serif'; ctx.fillText(nombre, 400, 865); ctx.fillStyle = '#bc9cff'; ctx.font = 'bold 24px Montserrat, sans-serif'; ctx.fillText('Cupos Confirmados: ' + cupos, 400, 940); ctx.fillStyle = '#7c3aed'; ctx.font = 'bold 16px Montserrat, sans-serif'; ctx.fillText('DRESS CODE: FORMAL / ETIQUETA', 400, 1060); ctx.fillStyle = '#9ca3af'; ctx.font = '15px Montserrat, sans-serif'; ctx.fillText('Presenta este pase digital en la recepción del evento • Lluvia de Sobres', 400, 1100);
+            const link = document.createElement('a'); link.download = `Pase_XV_${nombre.replace(/ /g, '_')}_Cupos_${cupos}.png`; link.href = canvas.toDataURL('image/png'); link.click();
         }
 
-        function initScrollObserver() {
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
-            }, { threshold: 0.4 });
-            document.querySelectorAll('.scene').forEach(s => obs.observe(s));
-        }
-
-        function initStarfield() {
-            const c = document.getElementById('starfield'); const ctx = c.getContext('2d');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-            let stars = []; 
-            for(let i=0; i<160; i++) stars.push({ x:Math.random()*c.width, y:Math.random()*c.height, o:Math.random(), sp:Math.random()*0.008+0.003 });
-            function draw() {
-                ctx.clearRect(0,0,c.width,c.height);
-                stars.forEach(s => { 
-                    s.o += s.sp; if(s.o>1||s.o<0) s.sp*=-1; 
-                    ctx.fillStyle=`rgba(188,156,255,${s.o})`; 
-                    ctx.beginPath(); ctx.arc(s.x,s.y,1.2,0,Math.PI*2); ctx.fill(); 
-                });
-                requestAnimationFrame(draw);
-            }
-            draw();
-        }
-
-        const target = new Date("Aug 22, 2026 17:00:00").getTime();
-        setInterval(() => {
-            const diff = target - new Date().getTime();
-            document.getElementById("days").innerText = Math.floor(diff / 86400000);
-            document.getElementById("hrs").innerText = Math.floor((diff % 86400000) / 3600000);
-            document.getElementById("min").innerText = Math.floor((diff % 3600000) / 60000);
-            document.getElementById("seg").innerText = Math.floor((diff % 60000) / 1000);
-        }, 1000);
-
-        window.addEventListener('resize', () => {
-            initMasterCanvas();
-            const c = document.getElementById('starfield');
-            if(c) { c.width = window.innerWidth; c.height = window.innerHeight; }
-        });
+        function initScrollObserver() { const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.4 }); document.querySelectorAll('.scene').forEach(s => obs.observe(s)); }
+        function initStarfield() { const c = document.getElementById('starfield'); const ctx = c.getContext('2d'); c.width = window.innerWidth; c.height = window.innerHeight; let stars = []; for(let i=0; i<160; i++) stars.push({ x:Math.random()*c.width, y:Math.random()*c.height, o:Math.random(), sp:Math.random()*0.008+0.003 }); function draw() { ctx.clearRect(0,0,c.width,c.height); stars.forEach(s => { s.o += s.sp; if(s.o>1||s.o<0) s.sp*=-1; ctx.fillStyle=`rgba(188,156,255,${s.o})`; ctx.beginPath(); ctx.arc(s.x,s.y,1.2,0,Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); } draw(); }
+        const target = new Date("Aug 22, 2026 17:00:00").getTime(); setInterval(() => { const diff = target - new Date().getTime(); document.getElementById("days").innerText = Math.floor(diff / 86400000); document.getElementById("hrs").innerText = Math.floor((diff % 86400000) / 3600000); document.getElementById("min").innerText = Math.floor((diff % 3600000) / 60000); document.getElementById("seg").innerText = Math.floor((diff % 60000) / 1000); }, 1000);
+        window.addEventListener('resize', () => { initMasterCanvas(); const c = document.getElementById('starfield'); if(c) { c.width = window.innerWidth; c.height = window.innerHeight; } });
     </script>
 </body>
 </html>
