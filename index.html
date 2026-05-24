@@ -58,7 +58,7 @@
         function toggleMusic() { if (audio.paused) audio.play(); else audio.pause(); }
         async function startMovie() { audio.play().catch(()=>{}); document.getElementById('mute-btn').style.display = 'flex'; document.getElementById('screen-intro').classList.add('warp-transition'); setTimeout(async () => { document.getElementById('screen-intro').style.display = 'none'; document.getElementById('screen-story').style.display = 'flex'; const chapters = [document.getElementById('c1'), document.getElementById('c2'), document.getElementById('c3')]; const flash = document.getElementById('cinematic-flash'); for(let i=0; i < chapters.length; i++) { chapters[i].classList.add('chapter-in'); await new Promise(r => setTimeout(r, 6500)); flash.style.transition = 'opacity 0.2s'; flash.style.opacity = '0.3'; setTimeout(() => { flash.style.opacity = '0'; }, 200); chapters[i].classList.replace('chapter-in', 'chapter-out'); await new Promise(r => setTimeout(r, 1200)); } document.getElementById('screen-story').style.opacity = '0'; setTimeout(() => { document.getElementById('screen-story').style.display = 'none'; document.getElementById('main-invitation').style.display = 'block'; document.body.style.overflow = 'auto'; initScrollObserver(); initStarfield(); cargarDatosInvitado(); }, 1500); }, 1200); }
         
-        const API_URL = "PEGA_AQUI_TU_NUEVA_URL_DE_APPS_SCRIPT"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbwDOghMjLLs_Rn9Zrl_67HXA37aMvX7hm04Os7j1XG1lnl8OLa_x8sOPqgQI99rm7Nk-A/exec"; 
         const urlParams = new URLSearchParams(window.location.search); const guestId = urlParams.get('id');
 
         function cargarDatosInvitado() {
