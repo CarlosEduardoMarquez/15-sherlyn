@@ -13,9 +13,18 @@
         #mute-btn { position: fixed; top: 20px; right: 20px; z-index: 10000; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--lila-glow); color: white; width: 45px; height: 45px; border-radius: 50%; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); cursor: pointer; }
         #masterCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4500; }
         
-        #screen-intro { position: fixed; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 5000; transition: transform 2s cubic-bezier(0.7, 0, 0.3, 1), opacity 2s; }
-        .flower-hero { width: 200px; height: 200px; cursor: pointer; position: relative; animation: cosmicBreathe 6s infinite ease-in-out; z-index: 5001; }
-        @keyframes cosmicBreathe { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--lila-glow)) contrast(1); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 50px var(--lila-glow)) contrast(1.2) brightness(1.2); } }
+        #screen-intro { position: fixed; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 5000; transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.5s; }
+        
+        /* --- MEJORA 1: INICIO MODERNO Y PREMIUM --- */
+        .modern-hero { width: 160px; height: 160px; cursor: pointer; position: relative; display: flex; justify-content: center; align-items: center; z-index: 5001; }
+        .glow-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 1px solid rgba(188, 156, 255, 0.4); animation: pulseOuter 3s infinite ease-in-out; }
+        .glow-core { position: absolute; width: 85%; height: 85%; border-radius: 50%; background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%); animation: pulseInner 2s infinite alternate ease-in-out; }
+        .hero-text { font-family: 'Cinzel', serif; font-size: 3.5rem; color: white; text-shadow: 0 0 20px var(--lila-glow); z-index: 2; letter-spacing: 2px; }
+        @keyframes pulseOuter { 0%, 100% { transform: scale(0.9); opacity: 0.5; box-shadow: 0 0 0 transparent; } 50% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 25px var(--lila-glow); } }
+        @keyframes pulseInner { 0% { transform: scale(0.8); opacity: 0.3; } 100% { transform: scale(1.1); opacity: 0.8; } }
+        
+        /* --- MEJORA 2: OPTIMIZACIÓN DE LAG (Eliminado el blur problemático) --- */
+        .warp-transition { transform: scale(12); opacity: 0; pointer-events: none; }
         
         #screen-story { position: fixed; width: 100%; height: 100%; background: #000; display: none; justify-content: center; align-items: center; z-index: 5500; padding: 40px; box-sizing: border-box; text-align: center; }
         #cinematic-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; z-index: 6000; pointer-events: none; }
@@ -27,18 +36,8 @@
         #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.5; }
         section.scene { height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center; scroll-snap-align: start; position: relative; z-index: 10; padding: 20px 0;}
         
-        /* --- MEJORA: EVITAR QUE SE CORTE EN PANTALLAS PEQUEÑAS --- */
-        .glass-card { 
-            background: var(--glass-vibe); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.08); 
-            border-radius: 40px; padding: 35px 25px; width: 85%; max-width: 440px; text-align: center; 
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8); opacity: 0; transform: translateY(100px) scale(0.8); 
-            transition: all 2s cubic-bezier(0.19, 1, 0.22, 1); 
-            max-height: 85vh; /* Altura máxima para celulares pequeños */
-            overflow-y: auto; /* Scroll interno si no cabe */
-            scrollbar-width: none; /* Ocultar barra en Firefox */
-            -ms-overflow-style: none; /* Ocultar barra en IE */
-        }
-        .glass-card::-webkit-scrollbar { display: none; } /* Ocultar barra en Chrome/Safari */
+        .glass-card { background: var(--glass-vibe); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.08); border-radius: 40px; padding: 35px 25px; width: 85%; max-width: 440px; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.8); opacity: 0; transform: translateY(100px) scale(0.8); transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1); max-height: 85vh; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+        .glass-card::-webkit-scrollbar { display: none; }
         .scene.active .glass-card { opacity: 1; transform: translateY(0) scale(1); border: 1px solid rgba(188, 156, 255, 0.25); }
         
         h1 { font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 14vw, 6rem); color: var(--texto-púrpura); margin: 10px 0; }
@@ -49,22 +48,16 @@
         .btn-action { display: inline-block; padding: 18px 45px; background: linear-gradient(135deg, #a855f7, #6b21a8); color: white; border-radius: 50px; text-decoration: none; font-weight: 600; margin-top: 15px; box-shadow: 0 15px 40px rgba(147, 51, 234, 0.4); transition: 0.3s; width: 80%; border: none; cursor: pointer; font-family: 'Montserrat', sans-serif; }
         .btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
         .btn-calendar { background: transparent; border: 1px solid var(--lila-glow); box-shadow: none; margin-top: 10px; }
-        .warp-transition { transform: scale(25) rotate(15deg); opacity: 0; filter: blur(60px); }
-
+        
         .instructions { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; font-size: 0.85rem; color: #ddd; margin-bottom: 20px; border-left: 3px solid var(--lila-glow); text-align: left; line-height: 1.6; }
         .guest-slider { width: 100%; margin: 15px 0; accent-color: var(--lila-glow); cursor: pointer; height: 8px; border-radius: 5px; outline: none; }
         .btn-decline { background: transparent; border: 1px solid #777; color: #ccc; margin-top: 10px; box-shadow: none; }
         .btn-decline:hover { background: rgba(255,255,255,0.05); color: white; border-color: white; }
 
-        /* --- MEJORA: INDICADOR DE DESLIZAMIENTO REBOTANDO --- */
         .scroll-cue { margin-top: 40px; color: var(--lila-glow); animation: cue-bounce 2s infinite; }
         .scroll-cue p { font-size: 0.75rem; letter-spacing: 3px; margin: 0 0 5px 0; text-transform: uppercase; font-weight: bold; }
         .scroll-cue i { font-size: 1.5rem; }
-        @keyframes cue-bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
+        @keyframes cue-bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
     </style>
 </head>
 <body>
@@ -74,13 +67,11 @@
     <div id="cinematic-flash"></div><canvas id="masterCanvas"></canvas>
     
     <section id="screen-intro">
-        <div class="flower-hero" onclick="startMovie()">
-            <svg viewBox="0 0 100 100">
-                <path d="M50 50 Q75 5 95 35 Q100 55 80 75 Q50 95 50 50" fill="#a855f7" opacity="0.8"/>
-                <path d="M50 50 Q25 5 5 35 Q0 55 20 75 Q50 95 50 50" fill="#bc9cff" opacity="0.8"/>
-                <path d="M50 50 Q85 85 65 95 Q45 105 35 85 Q25 65 50 50" fill="#7c3aed" opacity="0.9"/>
-                <circle cx="50" cy="50" r="4" fill="white"/>
-            </svg>
+        <!-- INICIO ACTUALIZADO -->
+        <div class="modern-hero" onclick="startMovie()">
+            <div class="glow-ring"></div>
+            <div class="glow-core"></div>
+            <div class="hero-text">XV</div>
         </div>
         <p style="margin-top: 50px; letter-spacing: 8px; font-size: 0.8rem; color: var(--lila-glow); opacity: 0.5;">TOCA PARA REVELAR</p>
     </section>
@@ -94,22 +85,15 @@
     <main id="main-invitation">
         <canvas id="starfield"></canvas>
         
-        <!-- PANTALLA 1: PORTADA -->
         <section class="scene">
             <div class="glass-card">
                 <p style="letter-spacing: 6px; font-size: 0.8rem; color: #999;">GALA DE QUINCE AÑOS</p>
                 <h1>Sherlyn Antonia</h1>
                 <p style="font-size: 1.1rem; color: #777; letter-spacing: 3px; font-weight: 200;">Alvarez Marquez</p>
-                
-                <!-- NUEVO INDICADOR DE DESPLAZAMIENTO -->
-                <div class="scroll-cue">
-                    <p>Desliza</p>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
+                <div class="scroll-cue"><p>Desliza</p><i class="fas fa-chevron-down"></i></div>
             </div>
         </section>
         
-        <!-- PANTALLA 2: CUENTA REGRESIVA -->
         <section class="scene">
             <div class="glass-card">
                 <h2 style="font-weight: 200; letter-spacing: 6px; color: var(--lila-glow); margin-bottom: 30px;">22 • AGOSTO • 2026</h2>
@@ -123,20 +107,18 @@
             </div>
         </section>
 
-        <!-- PANTALLA 3: FORMULARIO -->
         <section class="scene">
-            <div class="glass-card">
+            <div class="glass-card" style="padding-top: 30px; padding-bottom: 30px;">
                 <h3 style="color:var(--texto-púrpura); font-weight: 400; letter-spacing: 5px; font-size: 1.2rem; margin-top: 0;">RECEPCIÓN</h3>
                 <div style="text-align: left; margin: 20px 0; font-size: 0.9rem; line-height: 2.2; border-left: 2px solid var(--texto-púrpura); padding-left: 15px;">
-                    <p style="margin: 5px 0;"><i class="fas fa-church" style="color: var(--lila-glow);"></i> <b>RECEPCIÓN:</b> 20:00 HRS</p>
-                    <p style="margin: 5px 0;"><i class="fas fa-glass-cheers" style="color: var(--lila-glow);"></i> <b>BANQUETE:</b> 20:30 HRS</p>
+                    <p style="margin: 5px 0;"><i class="fas fa-church" style="color: var(--lila-glow);"></i> <b>CEREMONIA:</b> 17:00 HRS</p>
+                    <p style="margin: 5px 0;"><i class="fas fa-glass-cheers" style="color: var(--lila-glow);"></i> <b>BANQUETE:</b> 19:30 HRS</p>
                     <p style="margin: 5px 0;"><i class="fas fa-envelope-open-text" style="color: var(--lila-glow);"></i> Lluvia de Sobres</p>
                 </div>
                 <hr style="border: 0; border-top: 1px solid rgba(188, 156, 255, 0.2); margin: 25px 0;">
                 
                 <div id="loading-msg" style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px;"><i class="fas fa-spinner fa-spin"></i> Preparando tu recepción...</div>
                 
-                <!-- FORMULARIO INTERACTIVO -->
                 <div id="guest-details" style="display: none;">
                     <div class="instructions">
                         <i class="fas fa-info-circle" style="color: var(--lila-glow);"></i> <b style="color: white;">¿Cómo confirmar?</b><br>
@@ -145,7 +127,6 @@
                     </div>
                     
                     <p style="font-size: 0.7rem; letter-spacing: 3px; color: #999; margin-bottom: 0;">INVITACIÓN ESPECIAL PARA</p>
-                    <!-- MEJORA: TIPOGRAFÍA PARA NOMBRES LARGOS (Cinzel con word-wrap) -->
                     <h2 id="guest-name" style="font-family: 'Cinzel', serif; font-size: clamp(1.4rem, 5vw, 2rem); line-height: 1.3; word-wrap: break-word; color: white; margin: 10px 0; font-weight: bold; text-shadow: 0 0 10px rgba(188, 156, 255, 0.5);">---</h2>
                     <p style="color: var(--lila-glow); font-size: 0.9rem; margin-top: 0; letter-spacing: 1px;">Cupos autorizados: <span id="guest-limit" style="font-weight: bold; font-size: 1.2rem; color: white;">0</span></p>
                     
@@ -188,7 +169,7 @@
                 for(let i=0; i < chapters.length; i++) { chapters[i].classList.add('chapter-in'); await new Promise(r => setTimeout(r, 6500)); flash.style.transition = 'opacity 0.2s'; flash.style.opacity = '0.3'; setTimeout(() => { flash.style.opacity = '0'; }, 200); chapters[i].classList.replace('chapter-in', 'chapter-out'); await new Promise(r => setTimeout(r, 1200)); } 
                 document.getElementById('screen-story').style.opacity = '0'; 
                 setTimeout(() => { document.getElementById('screen-story').style.display = 'none'; document.getElementById('main-invitation').style.display = 'block'; document.body.style.overflow = 'auto'; initScrollObserver(); initStarfield(); cargarDatosInvitado(); }, 1500); 
-            }, 1200); 
+            }, 1000); 
         }
 
         // ====== ¡ATENCIÓN! PEGA AQUÍ TU ENLACE ======
@@ -202,7 +183,7 @@
                 .then(res => res.json())
                 .then(data => {
                     if(data.encontrado) {
-                        if(data.asistencia === "Confirmado") { mostrarPaseYaConfirmado(data.nombre, data.confirmados); } 
+                        if(data.asistencia === "Confirmado" || data.asistencia === "No Asistirá") { mostrarPaseYaConfirmado(data.nombre, data.confirmados, data.asistencia); } 
                         else { mostrarFormulario(data.nombre, data.pases); }
                     } else { document.getElementById('loading-msg').innerText = "Identificador no encontrado."; }
                 }).catch(e => { document.getElementById('loading-msg').innerText = "Error de red."; });
@@ -221,11 +202,11 @@
             document.getElementById('slider-label').innerText = 'Asistentes: ' + cupos;
         }
 
-        function mostrarPaseYaConfirmado(nombre, cuposConfirmados) {
+        function mostrarPaseYaConfirmado(nombre, cuposConfirmados, estado) {
             document.getElementById('loading-msg').style.display = 'none';
             const successMsg = document.getElementById('success-msg'); successMsg.style.display = 'block';
             
-            if(cuposConfirmados > 0) {
+            if(estado === "Confirmado") {
                 successMsg.innerHTML = `<i class="fas fa-check-circle" style="color: var(--lila-glow); font-size: 3.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--lila-glow));"></i><h2 style="font-family: 'Cinzel', serif; color: white; font-size: 1.5rem; margin: 0;">Asistencia Confirmada</h2><p style="color: #aaa; font-size: 0.9rem; margin-top: 10px;">Ya hemos registrado tu asistencia para <b>${cuposConfirmados} persona(s)</b>.</p><button onclick="generarYDescargarPaseImagen('${nombre}', ${cuposConfirmados})" class="btn-action" style="width: 100%; margin-top: 20px; padding: 15px 0;"><i class="fas fa-download"></i> DESCARGAR PASE VIP</button>`;
             } else {
                 successMsg.innerHTML = `<i class="fas fa-envelope-open" style="color: #777; font-size: 3.5rem; margin-bottom: 15px;"></i><h2 style="font-family: 'Cinzel', serif; color: white; font-size: 1.5rem; margin: 0;">Respuesta Registrada</h2><p style="color: #aaa; font-size: 0.9rem; margin-top: 10px;">Ya hemos registrado que no podrás acompañarnos.<br>¡Gracias por avisarnos!</p>`;
@@ -277,7 +258,21 @@
             ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#a855f7'; ctx.font = 'bold 15px Montserrat, sans-serif'; ctx.fillText('PASE DIGITAL EXCLUSIVO', 400, 130);
             ctx.fillStyle = '#bc9cff'; ctx.font = 'italic 58px Georgia, serif'; ctx.fillText('Sherlyn Antonia', 400, 240); ctx.fillStyle = '#8b5cf6'; ctx.font = 'bold 18px Montserrat, sans-serif'; ctx.fillText('ALVAREZ MÁRQUEZ', 400, 305); ctx.fillStyle = '#ffffff'; ctx.font = '28px Georgia, serif'; ctx.fillText('Mis XV Años', 400, 380);
             ctx.beginPath(); ctx.moveTo(250, 440); ctx.lineTo(550, 440); ctx.strokeStyle = 'rgba(188, 156, 255, 0.3)'; ctx.stroke(); ctx.fillStyle = '#a855f7'; ctx.font = 'bold 22px Montserrat, sans-serif'; ctx.fillText('RECEPCIÓN', 400, 500); ctx.fillStyle = '#ffffff'; ctx.font = '20px Montserrat, sans-serif'; ctx.fillText('Sábado, 22 de Agosto de 2026 • 17:00 HRS', 400, 560); ctx.fillStyle = '#e5e7eb'; ctx.font = 'bold 22px Georgia, serif'; ctx.fillText('Salón de Eventos Joely', 400, 620); ctx.fillStyle = '#9ca3af'; ctx.font = '15px Montserrat, sans-serif'; ctx.fillText('Av. 16 de Septiembre 605, Primero de Mayo, Villahermosa, Tabasco', 400, 665);
-            ctx.fillStyle = 'rgba(188, 156, 255, 0.04)'; ctx.fillRect(100, 750, 600, 250); ctx.strokeStyle = '#bc9cff'; ctx.lineWidth = 2; ctx.setLineDash([8, 5]); ctx.strokeRect(100, 750, 600, 250); ctx.setLineDash([]); ctx.fillStyle = '#a855f7'; ctx.font = 'bold 15px Montserrat, sans-serif'; ctx.fillText('ACCESO RESERVADO PARA:', 400, 800); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 42px Georgia, serif'; ctx.fillText(nombre, 400, 865); ctx.fillStyle = '#bc9cff'; ctx.font = 'bold 24px Montserrat, sans-serif'; ctx.fillText('Cupos Confirmados: ' + cupos, 400, 940); ctx.fillStyle = '#7c3aed'; ctx.font = 'bold 16px Montserrat, sans-serif'; ctx.fillText('DRESS CODE: FORMAL / ETIQUETA', 400, 1060); ctx.fillStyle = '#9ca3af'; ctx.font = '15px Montserrat, sans-serif'; ctx.fillText('Presenta este pase digital en la recepción del evento • Lluvia de Sobres', 400, 1100);
+            ctx.fillStyle = 'rgba(188, 156, 255, 0.04)'; ctx.fillRect(100, 750, 600, 250); ctx.strokeStyle = '#bc9cff'; ctx.lineWidth = 2; ctx.setLineDash([8, 5]); ctx.strokeRect(100, 750, 600, 250); ctx.setLineDash([]); 
+            ctx.fillStyle = '#a855f7'; ctx.font = 'bold 15px Montserrat, sans-serif'; ctx.fillText('ACCESO RESERVADO PARA:', 400, 800); 
+            
+            /* --- MEJORA 3: AUTO-AJUSTE DE TEXTO PARA NOMBRES LARGOS --- */
+            ctx.fillStyle = '#ffffff'; 
+            let dynamicSize = 42;
+            ctx.font = `bold ${dynamicSize}px Georgia, serif`;
+            // Si el nombre mide más de 550px, encogemos la letra hasta que quepa bien
+            while(ctx.measureText(nombre).width > 550 && dynamicSize > 15) {
+                dynamicSize--;
+                ctx.font = `bold ${dynamicSize}px Georgia, serif`;
+            }
+            ctx.fillText(nombre, 400, 865); 
+            
+            ctx.fillStyle = '#bc9cff'; ctx.font = 'bold 24px Montserrat, sans-serif'; ctx.fillText('Cupos Confirmados: ' + cupos, 400, 940); ctx.fillStyle = '#7c3aed'; ctx.font = 'bold 16px Montserrat, sans-serif'; ctx.fillText('DRESS CODE: FORMAL / ETIQUETA', 400, 1060); ctx.fillStyle = '#9ca3af'; ctx.font = '15px Montserrat, sans-serif'; ctx.fillText('Presenta este pase digital en la recepción del evento • Lluvia de Sobres', 400, 1100);
             const link = document.createElement('a'); link.download = `Pase_XV_${nombre.replace(/ /g, '_')}_Cupos_${cupos}.png`; link.href = canvas.toDataURL('image/png'); link.click();
         }
 
@@ -287,4 +282,4 @@
         window.addEventListener('resize', () => { initMasterCanvas(); const c = document.getElementById('starfield'); if(c) { c.width = window.innerWidth; c.height = window.innerHeight; } });
     </script>
 </body>
-</html>    
+</html>
