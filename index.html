@@ -25,8 +25,20 @@
         
         #main-invitation { width: 100%; height: 100vh; overflow-y: auto; display: none; background: linear-gradient(180deg, #0d0616 0%, #150824 100%); scroll-snap-type: y mandatory; }
         #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.5; }
-        section.scene { height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center; scroll-snap-align: start; position: relative; z-index: 10; }
-        .glass-card { background: var(--glass-vibe); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.08); border-radius: 40px; padding: 40px 30px; width: 85%; max-width: 440px; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.8); opacity: 0; transform: translateY(100px) scale(0.8); transition: all 2s cubic-bezier(0.19, 1, 0.22, 1); }
+        section.scene { height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center; scroll-snap-align: start; position: relative; z-index: 10; padding: 20px 0;}
+        
+        /* --- MEJORA: EVITAR QUE SE CORTE EN PANTALLAS PEQUEÑAS --- */
+        .glass-card { 
+            background: var(--glass-vibe); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 40px; padding: 35px 25px; width: 85%; max-width: 440px; text-align: center; 
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8); opacity: 0; transform: translateY(100px) scale(0.8); 
+            transition: all 2s cubic-bezier(0.19, 1, 0.22, 1); 
+            max-height: 85vh; /* Altura máxima para celulares pequeños */
+            overflow-y: auto; /* Scroll interno si no cabe */
+            scrollbar-width: none; /* Ocultar barra en Firefox */
+            -ms-overflow-style: none; /* Ocultar barra en IE */
+        }
+        .glass-card::-webkit-scrollbar { display: none; } /* Ocultar barra en Chrome/Safari */
         .scene.active .glass-card { opacity: 1; transform: translateY(0) scale(1); border: 1px solid rgba(188, 156, 255, 0.25); }
         
         h1 { font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 14vw, 6rem); color: var(--texto-púrpura); margin: 10px 0; }
@@ -39,11 +51,20 @@
         .btn-calendar { background: transparent; border: 1px solid var(--lila-glow); box-shadow: none; margin-top: 10px; }
         .warp-transition { transform: scale(25) rotate(15deg); opacity: 0; filter: blur(60px); }
 
-        /* --- NUEVOS ESTILOS PARA LA MEJORA DE UX --- */
         .instructions { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; font-size: 0.85rem; color: #ddd; margin-bottom: 20px; border-left: 3px solid var(--lila-glow); text-align: left; line-height: 1.6; }
         .guest-slider { width: 100%; margin: 15px 0; accent-color: var(--lila-glow); cursor: pointer; height: 8px; border-radius: 5px; outline: none; }
         .btn-decline { background: transparent; border: 1px solid #777; color: #ccc; margin-top: 10px; box-shadow: none; }
         .btn-decline:hover { background: rgba(255,255,255,0.05); color: white; border-color: white; }
+
+        /* --- MEJORA: INDICADOR DE DESLIZAMIENTO REBOTANDO --- */
+        .scroll-cue { margin-top: 40px; color: var(--lila-glow); animation: cue-bounce 2s infinite; }
+        .scroll-cue p { font-size: 0.75rem; letter-spacing: 3px; margin: 0 0 5px 0; text-transform: uppercase; font-weight: bold; }
+        .scroll-cue i { font-size: 1.5rem; }
+        @keyframes cue-bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
     </style>
 </head>
 <body>
@@ -72,15 +93,23 @@
 
     <main id="main-invitation">
         <canvas id="starfield"></canvas>
+        
+        <!-- PANTALLA 1: PORTADA -->
         <section class="scene">
             <div class="glass-card">
                 <p style="letter-spacing: 6px; font-size: 0.8rem; color: #999;">GALA DE QUINCE AÑOS</p>
                 <h1>Sherlyn Antonia</h1>
                 <p style="font-size: 1.1rem; color: #777; letter-spacing: 3px; font-weight: 200;">Alvarez Marquez</p>
-                <div style="margin-top: 70px; opacity: 0.2;"><i class="fas fa-chevron-down fa-bounce"></i></div>
+                
+                <!-- NUEVO INDICADOR DE DESPLAZAMIENTO -->
+                <div class="scroll-cue">
+                    <p>Desliza</p>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
             </div>
         </section>
         
+        <!-- PANTALLA 2: CUENTA REGRESIVA -->
         <section class="scene">
             <div class="glass-card">
                 <h2 style="font-weight: 200; letter-spacing: 6px; color: var(--lila-glow); margin-bottom: 30px;">22 • AGOSTO • 2026</h2>
@@ -94,9 +123,10 @@
             </div>
         </section>
 
+        <!-- PANTALLA 3: FORMULARIO -->
         <section class="scene">
-            <div class="glass-card" style="padding-top: 30px; padding-bottom: 30px;">
-                <h3 style="color:var(--texto-púrpura); font-weight: 400; letter-spacing: 5px; font-size: 1.2rem;">RECEPCIÓN</h3>
+            <div class="glass-card">
+                <h3 style="color:var(--texto-púrpura); font-weight: 400; letter-spacing: 5px; font-size: 1.2rem; margin-top: 0;">RECEPCIÓN</h3>
                 <div style="text-align: left; margin: 20px 0; font-size: 0.9rem; line-height: 2.2; border-left: 2px solid var(--texto-púrpura); padding-left: 15px;">
                     <p style="margin: 5px 0;"><i class="fas fa-church" style="color: var(--lila-glow);"></i> <b>CEREMONIA:</b> 17:00 HRS</p>
                     <p style="margin: 5px 0;"><i class="fas fa-glass-cheers" style="color: var(--lila-glow);"></i> <b>BANQUETE:</b> 19:30 HRS</p>
@@ -106,6 +136,7 @@
                 
                 <div id="loading-msg" style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px;"><i class="fas fa-spinner fa-spin"></i> Preparando tu recepción...</div>
                 
+                <!-- FORMULARIO INTERACTIVO -->
                 <div id="guest-details" style="display: none;">
                     <div class="instructions">
                         <i class="fas fa-info-circle" style="color: var(--lila-glow);"></i> <b style="color: white;">¿Cómo confirmar?</b><br>
@@ -114,7 +145,8 @@
                     </div>
                     
                     <p style="font-size: 0.7rem; letter-spacing: 3px; color: #999; margin-bottom: 0;">INVITACIÓN ESPECIAL PARA</p>
-                    <h2 id="guest-name" style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: white; margin: 5px 0; font-weight: normal; text-shadow: 0 0 10px rgba(188, 156, 255, 0.5);">---</h2>
+                    <!-- MEJORA: TIPOGRAFÍA PARA NOMBRES LARGOS (Cinzel con word-wrap) -->
+                    <h2 id="guest-name" style="font-family: 'Cinzel', serif; font-size: clamp(1.4rem, 5vw, 2rem); line-height: 1.3; word-wrap: break-word; color: white; margin: 10px 0; font-weight: bold; text-shadow: 0 0 10px rgba(188, 156, 255, 0.5);">---</h2>
                     <p style="color: var(--lila-glow); font-size: 0.9rem; margin-top: 0; letter-spacing: 1px;">Cupos autorizados: <span id="guest-limit" style="font-weight: bold; font-size: 1.2rem; color: white;">0</span></p>
                     
                     <div style="margin-top: 25px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 1px solid rgba(188, 156, 255, 0.2);">
@@ -201,7 +233,6 @@
         }
 
         function confirmarAsistencia(asiste) {
-            // Detener la música al momento de enviar respuesta
             if(!audio.paused) audio.pause();
 
             const nombreInvitado = document.getElementById('guest-name').innerText;
@@ -256,4 +287,4 @@
         window.addEventListener('resize', () => { initMasterCanvas(); const c = document.getElementById('starfield'); if(c) { c.width = window.innerWidth; c.height = window.innerHeight; } });
     </script>
 </body>
-</html>
+</html>    
