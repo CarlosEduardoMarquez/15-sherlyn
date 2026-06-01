@@ -15,15 +15,66 @@
         
         #screen-intro { position: fixed; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 5000; transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.5s; }
         
-        /* --- MEJORA 1: INICIO MODERNO Y PREMIUM --- */
-        .modern-hero { width: 160px; height: 160px; cursor: pointer; position: relative; display: flex; justify-content: center; align-items: center; z-index: 5001; }
-        .glow-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 1px solid rgba(188, 156, 255, 0.4); animation: pulseOuter 3s infinite ease-in-out; }
-        .glow-core { position: absolute; width: 85%; height: 85%; border-radius: 50%; background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%); animation: pulseInner 2s infinite alternate ease-in-out; }
-        .hero-text { font-family: 'Cinzel', serif; font-size: 3.5rem; color: white; text-shadow: 0 0 20px var(--lila-glow); z-index: 2; letter-spacing: 2px; }
-        @keyframes pulseOuter { 0%, 100% { transform: scale(0.9); opacity: 0.5; box-shadow: 0 0 0 transparent; } 50% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 25px var(--lila-glow); } }
-        @keyframes pulseInner { 0% { transform: scale(0.8); opacity: 0.3; } 100% { transform: scale(1.1); opacity: 0.8; } }
+        /* --- MAGIA: ESTRELLAS FUGACES LENTAS Y ESPACIADAS --- */
+        .magic-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; pointer-events: none; }
         
-        /* --- MEJORA 2: OPTIMIZACIÓN DE LAG (Eliminado el blur problemático) --- */
+        .shooting-star { position: absolute; background: linear-gradient(to right, transparent 0%, rgba(188,156,255,0.8) 80%, #fff 100%); border-radius: 0 50px 50px 0; opacity: 0; box-shadow: 2px 0 10px #bc9cff; }
+        
+        /* Frente: Cruzan en ~15 segundos. Fondo: Cruzan en ~21 segundos. (Mucho más lento y majestuoso) */
+        .shooting-star.front { width: 150px; height: 2px; filter: blur(0px); animation: fallingStarFront 45s linear infinite; }
+        .shooting-star.back { width: 80px; height: 1px; filter: blur(1.5px); animation: fallingStarBack 60s linear infinite; }
+        
+        @keyframes fallingStarFront {
+            0% { transform: rotate(135deg) translateX(-20vw); opacity: 0; }
+            2% { opacity: 1; }
+            35% { transform: rotate(135deg) translateX(150vw); opacity: 0; }
+            100% { transform: rotate(135deg) translateX(150vw); opacity: 0; }
+        }
+        @keyframes fallingStarBack {
+            0% { transform: rotate(135deg) translateX(-20vw); opacity: 0; }
+            2% { opacity: 0.5; }
+            35% { transform: rotate(135deg) translateX(150vw); opacity: 0; }
+            100% { transform: rotate(135deg) translateX(150vw); opacity: 0; }
+        }
+        
+        /* Retrasos matemáticos para que NO se amontonen (Máximo 1 o 2 a la vez) */
+        .st-1 { top: 0%; right: 10%; animation-delay: 0s; }
+        .st-2 { top: -20%; right: 30%; animation-delay: 15s; }
+        .st-3 { top: 20%; right: -10%; animation-delay: 25s; }
+        .st-4 { top: 50%; right: -20%; animation-delay: 40s; }
+        /* Eliminamos la 5ta estrella para mantener el cielo más limpio y elegante */
+
+        /* Destellos Mágicos (3 capas de profundidad) */
+        .dust { position: absolute; border-radius: 50%; background: #fff; opacity: 0; animation: floatDust linear infinite; }
+        .dust.front { width: 6px; height: 6px; box-shadow: 0 0 15px #bc9cff, 0 0 20px #a855f7; animation-duration: 5s; }
+        .dust.mid { width: 3px; height: 3px; box-shadow: 0 0 8px #bc9cff; animation-duration: 8s; filter: blur(0.5px); }
+        .dust.back { width: 1.5px; height: 1.5px; box-shadow: 0 0 3px #bc9cff; animation-duration: 12s; filter: blur(1px); }
+
+        @keyframes floatDust {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            40% { opacity: 0.8; }
+            100% { transform: translateY(-200px) scale(1.2); opacity: 0; }
+        }
+        
+        /* Tiempos y Posiciones del Polvo Mágico */
+        .d-1 { bottom: 10%; left: 20%; animation-delay: 0s; } .d-2 { bottom: 30%; left: 80%; animation-delay: 2s; }
+        .d-3 { bottom: 5%; left: 50%; animation-delay: 4s; }  .d-4 { bottom: 15%; left: 70%; animation-delay: 1s; }
+        .d-5 { bottom: 40%; left: 30%; animation-delay: 3s; } .d-6 { bottom: 25%; left: 90%; animation-delay: 1.5s; }
+        .d-7 { bottom: 20%; left: 10%; animation-delay: 0.5s; }.d-8 { bottom: 35%; left: 60%; animation-delay: 3.5s; }
+        .d-9 { bottom: 8%; left: 40%; animation-delay: 2.5s; } .d-10 { bottom: 45%; left: 75%; animation-delay: 4.5s; }
+        .d-11 { bottom: 50%; left: 15%; animation-delay: 0.8s; }.d-12 { bottom: 22%; left: 85%; animation-delay: 2.2s; }
+        .d-13 { bottom: 12%; left: 55%; animation-delay: 1.2s; }.d-14 { bottom: 38%; left: 25%; animation-delay: 3.8s; }
+        .d-15 { bottom: 28%; left: 65%; animation-delay: 4.2s; }
+
+        /* --- FLOR ELEGANTE MANDALA --- */
+        .extravagant-hero { position: relative; width: 220px; height: 220px; cursor: pointer; display: flex; justify-content: center; align-items: center; animation: floatFlower 4s ease-in-out infinite; z-index: 5001; }
+        .extravagant-hero svg { width: 100%; height: 100%; filter: drop-shadow(0 0 15px rgba(188, 156, 255, 0.4)); animation: spinSlow 25s linear infinite; }
+        .flower-core { position: absolute; width: 35px; height: 35px; background: radial-gradient(circle, #ffffff, #bc9cff); border-radius: 50%; box-shadow: 0 0 25px #bc9cff, 0 0 50px #a855f7; animation: pulseCore 2s infinite alternate; z-index: 2; }
+        
+        @keyframes floatFlower { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-15px) scale(1.05); } }
+        @keyframes spinSlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulseCore { 0% { transform: scale(0.8); opacity: 0.8; } 100% { transform: scale(1.2); opacity: 1; } }
+        
         .warp-transition { transform: scale(12); opacity: 0; pointer-events: none; }
         
         #screen-story { position: fixed; width: 100%; height: 100%; background: #000; display: none; justify-content: center; align-items: center; z-index: 5500; padding: 40px; box-sizing: border-box; text-align: center; }
@@ -67,13 +118,74 @@
     <div id="cinematic-flash"></div><canvas id="masterCanvas"></canvas>
     
     <section id="screen-intro">
-        <!-- INICIO ACTUALIZADO -->
-        <div class="modern-hero" onclick="startMovie()">
-            <div class="glow-ring"></div>
-            <div class="glow-core"></div>
-            <div class="hero-text">XV</div>
+        <!-- CAPA MÁGICA CON PROFUNDIDAD -->
+        <div class="magic-layer">
+            <!-- Estrellas Fugaces separadas en el tiempo y muy lentas -->
+            <div class="shooting-star front st-1"></div>
+            <div class="shooting-star back st-2"></div>
+            <div class="shooting-star front st-3"></div>
+            <div class="shooting-star back st-4"></div>
+            
+            <!-- Polvo Mágico en múltiples capas -->
+            <div class="dust front d-1"></div>
+            <div class="dust mid d-2"></div>
+            <div class="dust back d-3"></div>
+            <div class="dust front d-4"></div>
+            <div class="dust mid d-5"></div>
+            <div class="dust back d-6"></div>
+            <div class="dust front d-7"></div>
+            <div class="dust mid d-8"></div>
+            <div class="dust back d-9"></div>
+            <div class="dust front d-10"></div>
+            <div class="dust mid d-11"></div>
+            <div class="dust back d-12"></div>
+            <div class="dust front d-13"></div>
+            <div class="dust mid d-14"></div>
+            <div class="dust back d-15"></div>
         </div>
-        <p style="margin-top: 50px; letter-spacing: 8px; font-size: 0.8rem; color: var(--lila-glow); opacity: 0.5;">TOCA PARA REVELAR</p>
+
+        <div class="extravagant-hero" onclick="startMovie()">
+            <div class="flower-core"></div>
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="gradDark" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#a855f7" stop-opacity="0.9" />
+                        <stop offset="100%" stop-color="#4c1d95" stop-opacity="0.5" />
+                    </linearGradient>
+                    <linearGradient id="gradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#bc9cff" stop-opacity="0.8" />
+                        <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.4" />
+                    </linearGradient>
+                    <g id="petalMaster">
+                        <path d="M100,100 C135,45 155,5 100,0 C45,5 65,45 100,100" />
+                    </g>
+                    <g id="petalSlim">
+                        <path d="M100,100 C115,55 125,15 100,5 C75,15 85,55 100,100" />
+                    </g>
+                </defs>
+                <g fill="url(#gradDark)">
+                    <use href="#petalMaster" transform="rotate(0 100 100)" />
+                    <use href="#petalMaster" transform="rotate(45 100 100)" />
+                    <use href="#petalMaster" transform="rotate(90 100 100)" />
+                    <use href="#petalMaster" transform="rotate(135 100 100)" />
+                    <use href="#petalMaster" transform="rotate(180 100 100)" />
+                    <use href="#petalMaster" transform="rotate(225 100 100)" />
+                    <use href="#petalMaster" transform="rotate(270 100 100)" />
+                    <use href="#petalMaster" transform="rotate(315 100 100)" />
+                </g>
+                <g fill="url(#gradLight)">
+                    <use href="#petalSlim" transform="rotate(22.5 100 100)" />
+                    <use href="#petalSlim" transform="rotate(67.5 100 100)" />
+                    <use href="#petalSlim" transform="rotate(112.5 100 100)" />
+                    <use href="#petalSlim" transform="rotate(157.5 100 100)" />
+                    <use href="#petalSlim" transform="rotate(202.5 100 100)" />
+                    <use href="#petalSlim" transform="rotate(247.5 100 100)" />
+                    <use href="#petalSlim" transform="rotate(292.5 100 100)" />
+                    <use href="#petalSlim" transform="rotate(337.5 100 100)" />
+                </g>
+            </svg>
+        </div>
+        <p style="margin-top: 50px; letter-spacing: 8px; font-size: 0.8rem; color: var(--lila-glow); opacity: 0.5; z-index: 5001;">TOCA PARA REVELAR</p>
     </section>
 
     <section id="screen-story">
@@ -261,11 +373,9 @@
             ctx.fillStyle = 'rgba(188, 156, 255, 0.04)'; ctx.fillRect(100, 750, 600, 250); ctx.strokeStyle = '#bc9cff'; ctx.lineWidth = 2; ctx.setLineDash([8, 5]); ctx.strokeRect(100, 750, 600, 250); ctx.setLineDash([]); 
             ctx.fillStyle = '#a855f7'; ctx.font = 'bold 15px Montserrat, sans-serif'; ctx.fillText('ACCESO RESERVADO PARA:', 400, 800); 
             
-            /* --- MEJORA 3: AUTO-AJUSTE DE TEXTO PARA NOMBRES LARGOS --- */
             ctx.fillStyle = '#ffffff'; 
             let dynamicSize = 42;
             ctx.font = `bold ${dynamicSize}px Georgia, serif`;
-            // Si el nombre mide más de 550px, encogemos la letra hasta que quepa bien
             while(ctx.measureText(nombre).width > 550 && dynamicSize > 15) {
                 dynamicSize--;
                 ctx.font = `bold ${dynamicSize}px Georgia, serif`;
